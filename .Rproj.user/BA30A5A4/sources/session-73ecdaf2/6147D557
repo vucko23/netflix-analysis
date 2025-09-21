@@ -1,0 +1,24 @@
+{
+    "id": "6147D557",
+    "path": "~/Desktop/netflix-analysis/notebooks/netflix_analysis.Rmd",
+    "project_path": "notebooks/netflix_analysis.Rmd",
+    "type": "r_markdown",
+    "hash": "1237722076",
+    "contents": "",
+    "dirty": false,
+    "created": 1758450958632.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1758450072,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1758450072,
+    "read_only": false,
+    "read_only_alternatives": []
+}

@@ -1,0 +1,97 @@
+---
+title: "Netflix Data Analysis"
+author: "Jelena Vucetic"
+date: "2025-09-21"
+output: html_document
+---
+
+# 🎬 Netflix Data Analysis
+
+This report explores the Netflix dataset: movies and TV shows, their distribution by year, country, and genre.
+
+---
+
+## 📂 Load libraries & dataset
+
+```{r setup, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(plotly)
+library(sqldf)
+library(here)   # za stabilne putanje
+
+# učitavanje dataset-a
+netflix <- read.csv(here::here("data", "netflix_titles.csv"))
+
+# pregled podataka
+str(netflix)
+summary(netflix)
+```
+
+---
+
+## 📊 Movies vs TV Shows
+
+```{r}
+netflix %>%
+  count(type) %>%
+  ggplot(aes(x = type, y = n, fill = type)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Movies vs TV Shows on Netflix",
+       x = "Type", y = "Count") +
+  theme_minimal()
+```
+
+---
+
+## 📈 Releases over time
+
+```{r}
+netflix %>%
+  group_by(release_year) %>%
+  summarise(count = n()) %>%
+  ggplot(aes(x = release_year, y = count)) +
+  geom_line(color = "red") +
+  labs(title = "Number of Releases Over Time",
+       x = "Release Year", y = "Count") +
+  theme_minimal()
+```
+
+---
+
+## 🎭 Top Genres
+
+```{r}
+# Split genres (listed_in column)
+genres <- netflix %>%
+  separate_rows(listed_in, sep = ", ") %>%
+  count(listed_in, sort = TRUE)
+
+head(genres, 10)
+
+genres %>%
+  slice_max(n, n = 10) %>%
+  ggplot(aes(x = reorder(listed_in, n), y = n)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  coord_flip() +
+  labs(title = "Top 10 Genres on Netflix",
+       x = "Genre", y = "Count") +
+  theme_minimal()
+```
+
+---
+
+## 🌍 Top Countries
+
+```{r}
+netflix %>%
+  filter(!is.na(country)) %>%
+  count(country, sort = TRUE) %>%
+  slice_max(n, n = 10) %>%
+  ggplot(aes(x = reorder(country, n), y = n)) +
+  geom_bar(stat = "identity", fill = "darkgreen") +
+  coord_flip() +
+  labs(title = "Top 10 Countries on Netflix",
+       x = "Country", y = "Count") +
+  theme_minimal()
+```
